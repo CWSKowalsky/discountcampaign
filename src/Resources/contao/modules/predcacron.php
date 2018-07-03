@@ -10,29 +10,17 @@ class PredcaCron extends Backend
  
     public function run()
     {
-        $response = \Database::getInstance()->prepare("DELETE FROM tl_discountcampaign;")->execute();
-        //DOES GET CALLED EVENTUALLY
-        //FIND A WAY TO TEST IT!!
-
         $database = 'tl_discountcampaign';
-        $servername = $GLOBALS['TL_CONFIG']['dbHost'];
-        $username = $GLOBALS['TL_CONFIG']['dbUser'];
-        $password = $GLOBALS['TL_CONFIG']['dbPass'];
-        $dbname = $GLOBALS['TL_CONFIG']['dbDatabase'];
-        $conn = new mysqli($servername, $username, $password, $dbname);
-        if($conn->connect_error) {
+
+        $response = \Database::getInstance()->prepare("SELECT * FROM $database")->execute();
+        if(isset($response) == false) {
             return;
         }
 
-        $sql = "SELECT * FROM $database";
-        $result = $conn->query($sql);
-        if(isset($result) == false) {
-            return;
-        }
-        $conn->close();
+        $array = $response->fetchAllAssoc();
 
         $time = time();
-        while($row = mysqli_fetch_array($result)){
+        foreach($array as $row){
             $start = $row['start'];
             $stop = $row['stop'];
             if($time < $start or $time > $stop) {
@@ -43,25 +31,16 @@ class PredcaCron extends Backend
 
     public function delete($id) {
         $database = 'tl_discountcampaign';
-        $servername = $GLOBALS['TL_CONFIG']['dbHost'];
-        $username = $GLOBALS['TL_CONFIG']['dbUser'];
-        $password = $GLOBALS['TL_CONFIG']['dbPass'];
-        $dbname = $GLOBALS['TL_CONFIG']['dbDatabase'];
-        $conn = new mysqli($servername, $username, $password, $dbname);
-        if($conn->connect_error) {
-            echo 'Verbindung zur Datenbank nicht möglich';
-        }
 
-        $sql = "SELECT old_data FROM $database WHERE id=".$id;
-        $result = $conn->query($sql);
-        if(isset($result) == false) {
-            echo 'Datanbank abfrage nicht erfolgreich';
+        $conn = \Database::getInstance();
+        $response = $conn->prepare("SELECT old_data FROM $database WHERE id=".$id)->execute();
+        if(isset($response) == false) {
+            return;
         }
-        $sql_1 = "DELETE FROM $database WHERE id=".$id;
-        $conn->query($sql_1);
-        $conn->close();
-        $array = array();
-        $array = mysqli_fetch_array($result);
+        $array = $response->fetchAllAssoc();
+
+        $conn->prepare("DELETE FROM $database WHERE id=".$id)->execute();
+        
         $array = unserialize($array['old_data']);
 
         $do_arrays = array();
@@ -83,19 +62,11 @@ class PredcaCron extends Backend
     }
 
     public function doExecute($database, $do_arrays) {
-        $servername = $GLOBALS['TL_CONFIG']['dbHost'];
-        $username = $GLOBALS['TL_CONFIG']['dbUser'];
-        $password = $GLOBALS['TL_CONFIG']['dbPass'];
-        $dbname = $GLOBALS['TL_CONFIG']['dbDatabase'];
-        $conn = new mysqli($servername, $username, $password, $dbname);
-        if($conn->connect_error) {
-            echo 'Verbindung zur Datenbank nicht möglich';
-        }
+        $conn = \Database::getInstance();
         
         foreach($do_arrays as $id => $do_array) {
             foreach($do_array as $field => $value) {
-                $sql = "UPDATE $database SET $field='$value' WHERE id=$id";
-                $result = $conn->query($sql);
+                $conn->prepare("UPDATE $database SET $field='$value' WHERE id=$id")->execute();
             }
         }
         $conn->close();
