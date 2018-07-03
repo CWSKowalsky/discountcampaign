@@ -1,1 +1,1 @@
-# discountcampaign
+# MERCONIS Discount Campaign
