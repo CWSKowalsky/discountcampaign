@@ -10,6 +10,9 @@ class PredcaCron extends Backend
  
     public function run()
     {
+
+        //THIS DOES GET EXECUTED. I CHECKED IT --> TROUBLESHOOTING WHY IT STILL DOESNT WORK
+
         $database = 'tl_discountcampaign';
 
         $response = \Database::getInstance()->prepare("SELECT * FROM $database")->execute();
