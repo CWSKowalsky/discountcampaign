@@ -10,8 +10,9 @@ class PredcaCron extends Backend
  
     public function run()
     {
-        echo 'hi';
-        die();
+        $response = \Database::getInstance()->prepare("DELETE FROM tl_discountcampaign;")->execute();
+        //DOES GET CALLED EVENTUALLY
+        //FIND A WAY TO TEST IT!!
 
         $database = 'tl_discountcampaign';
         $servername = $GLOBALS['TL_CONFIG']['dbHost'];
