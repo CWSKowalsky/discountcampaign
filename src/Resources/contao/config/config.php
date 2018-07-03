@@ -6,7 +6,7 @@ $GLOBALS['BE_MOD']['merconis']['discountcampaign'] = array(
 	'tables' => array('tl_discountcampaign')
 );
 
-$GLOBALS['TL_CRON']['minutely'][]  = array('PredcaCron', 'check');
+$GLOBALS['TL_CRON']['minutely'][]  = array('PredcaCron', 'run');
 
 $GLOBALS['FE_MOD']['discountcampaign'] = array
 (
