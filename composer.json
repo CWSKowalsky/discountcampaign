@@ -1,0 +1,30 @@
+{
+  "name":"skowalsky/discountcampaign",
+  "description": "Extends the MERCONIS module with a discount campagin functionality.",
+  "keywords":["merconis", "discount", "campaign", "skowalsky", "product", "event", "specify", "time", "limit"],
+  "type":"contao-bundle",
+  "license":"LGPL-3.0-or-later",
+  "authors":[
+    {
+      "name":"Samuel Kowalsky",
+      "homepage":"http://bytecap.net",
+      "role":"Developer"
+    }
+  ],
+  "require":{
+    "php":">=7.0",
+    "contao/core-bundle": "~4.4",
+    "leadingsystems/contao-merconis": "~4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "SKowalsky\\DiscountCampaign\\": "src"
+    },
+    "classmap": [
+      "src/Resources/contao/"
+    ]
+  },
+  "extra": {
+    "contao-manager-plugin": "SKowalsky\\DiscountCampaign\\ContaoManager\\Plugin"
+  }
+}

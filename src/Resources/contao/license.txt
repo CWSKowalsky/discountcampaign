@@ -1,0 +1,5 @@
+## Merconis coupon extension for the Contao CMS
+
+Originally created by Samuel Kowalsky (http://bytecap.net).
+
+License : LGPL-3.0-or-later
