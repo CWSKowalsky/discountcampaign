@@ -10,6 +10,9 @@ class PredcaCron extends Backend
  
     public function run()
     {
+        echo 'hi';
+        die();
+
         $database = 'tl_discountcampaign';
         $servername = $GLOBALS['TL_CONFIG']['dbHost'];
         $username = $GLOBALS['TL_CONFIG']['dbUser'];
