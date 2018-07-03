@@ -1,8 +1,15 @@
 <?php
+ 
 
-class PredcaCron extends \System {
-
-    public function check() {
+class PredcaCron extends Backend
+{
+    public function __construct()
+    {
+    	parent::__construct();
+    }
+ 
+    public function run()
+    {
         $database = 'tl_discountcampaign';
         $servername = $GLOBALS['TL_CONFIG']['dbHost'];
         $username = $GLOBALS['TL_CONFIG']['dbUser'];
@@ -69,7 +76,6 @@ class PredcaCron extends \System {
             $do_arrays[$id] = $do_array;
         }
         $this->doExecute('tl_ls_shop_product', $do_arrays);
-
     }
 
     public function doExecute($database, $do_arrays) {
@@ -90,7 +96,9 @@ class PredcaCron extends \System {
         }
         $conn->close();
     }
-
+ 
 }
+$objPredcaCron = new PredcaCron();
+$objPredcaCron->run();
 
 ?>
