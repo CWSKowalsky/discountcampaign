@@ -7,3 +7,8 @@ $GLOBALS['BE_MOD']['merconis']['discountcampaign'] = array(
 );
 
 $GLOBALS['TL_CRON']['minutely'][]  = array('PredcaCron', 'check');
+
+$GLOBALS['FE_MOD']['discountcampaign'] = array
+(
+	'discountcampaign_list'     => 'ModuleDiscountCampaignList',
+);
