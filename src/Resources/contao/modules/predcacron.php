@@ -12,10 +12,13 @@ class PredcaCron extends Backend
     {
 
         //THIS DOES GET EXECUTED. I CHECKED IT --> TROUBLESHOOTING WHY IT STILL DOESNT WORK
+        $time1 = time();
+        \Database::getInstance()->prepare("INSERT INTO tl_test (time1) ('$time1')")->execute();
+        return;
 
-        $database = 'tl_discountcampaign';
+        $table = 'tl_discountcampaign';
 
-        $response = \Database::getInstance()->prepare("SELECT * FROM $database")->execute();
+        $response = \Database::getInstance()->prepare("SELECT * FROM $table")->execute();
         if(isset($response) == false) {
             return;
         }
@@ -26,7 +29,7 @@ class PredcaCron extends Backend
         foreach($array as $row){
             $start = $row['start'];
             $stop = $row['stop'];
-            if($time < $start or $time > $stop) {
+            if($time < $start || $time > $stop) {
                 $this->delete($row['id']);
             }
         }
