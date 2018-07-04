@@ -35,8 +35,7 @@ class PredcaCron extends Backend
     public function deleteDC($id) {
         $table = 'tl_discountcampaign';
 
-        $conn = \Database::getInstance();
-        $response = $conn->prepare("SELECT old_data FROM $table WHERE id=".$id)->execute();
+        $response = \Database::getInstance()->prepare("SELECT old_data FROM $table WHERE id=".$id)->execute();
         if(isset($response) == false) {
             return;
         }
@@ -60,7 +59,7 @@ class PredcaCron extends Backend
             $do_arrays[$id] = $do_array;
         }
         $this->doExecuteDC('tl_ls_shop_product', $do_arrays);
-        $conn->prepare("DELETE FROM $table WHERE id=".$id)->execute();
+        $conn = \Database::getInstance()->prepare("DELETE FROM $table WHERE id=".$id)->execute();
     }
 
     public function doExecuteDC($table, $do_arrays) {
