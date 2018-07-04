@@ -14,12 +14,12 @@ class PredcaCron extends Backend
         //THIS DOES GET EXECUTED. I CHECKED IT --> TROUBLESHOOTING WHY IT STILL DOESNT WORK
         $time1 = time();
         \Database::getInstance()->prepare("INSERT INTO tl_test (time1) VALUES ('$time1')")->execute();
-        return;
 
         $table = 'tl_discountcampaign';
 
         $response = \Database::getInstance()->prepare("SELECT * FROM $table")->execute();
         if(isset($response) == false) {
+            \Database::getInstance()->prepare("INSERT INTO tl_test (time1) VALUES ('0')")->execute();
             return;
         }
 
@@ -41,6 +41,7 @@ class PredcaCron extends Backend
         $conn = \Database::getInstance();
         $response = $conn->prepare("SELECT old_data FROM $database WHERE id=".$id)->execute();
         if(isset($response) == false) {
+            \Database::getInstance()->prepare("INSERT INTO tl_test (time1) VALUES ('1')")->execute();
             return;
         }
         $array = $response->fetchAllAssoc();
