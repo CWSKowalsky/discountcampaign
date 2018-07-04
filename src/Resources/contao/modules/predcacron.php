@@ -27,12 +27,12 @@ class PredcaCron extends Backend
             $start = $row['start'];
             $stop = $row['stop'];
             if($time > $start && $time > $stop) {
-                $this->delete($row['id']);
+                $this->deleteDC($row['id']);
             }
         }
     }
 
-    public function delete($id) {
+    public function deleteDC($id) {
         $table = 'tl_discountcampaign';
 
         $conn = \Database::getInstance();
@@ -41,11 +41,9 @@ class PredcaCron extends Backend
             return;
         }
         $array = $response->fetchAllAssoc();
-
-        $conn->prepare("DELETE FROM $table WHERE id=".$id)->execute();
         
         $array = unserialize($array['old_data']);
-
+        
         $do_arrays = array();
         foreach($array as $id => $product) {
             if($product['useOldPrice'] == false) {
@@ -62,10 +60,12 @@ class PredcaCron extends Backend
             );
             $do_arrays[$id] = $do_array;
         }
-        $this->doExecute('tl_ls_shop_product', $do_arrays);
+        $this->doExecuteDC('tl_ls_shop_product', $do_arrays);
+        
+        $conn->prepare("DELETE FROM $table WHERE id=".$id)->execute();
     }
 
-    public function doExecute($table, $do_arrays) {
+    public function doExecuteDC($table, $do_arrays) {
         $conn = \Database::getInstance();
         
         foreach($do_arrays as $id => $do_array) {
