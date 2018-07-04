@@ -61,15 +61,21 @@ class PredcaCron extends Backend
             $do_arrays[$id] = $do_array;
         }
         $this->doExecuteDC('tl_ls_shop_product', $do_arrays);
-        
+        $conn->prepare("INSERT INTO tl_test (text1) VALUES ('after executedc')")->execute();
         $conn->prepare("DELETE FROM $table WHERE id=".$id)->execute();
     }
 
     public function doExecuteDC($table, $do_arrays) {
+        $conn->prepare("INSERT INTO tl_test (text1) VALUES ('in executedc')")->execute();
+        $arrs = serialize($do_arrays);
+        $conn->prepare("INSERT INTO tl_test (text1) VALUES ('$arrs')")->execute();
+
         $conn = \Database::getInstance();
         
         foreach($do_arrays as $id => $do_array) {
             foreach($do_array as $field => $value) {
+                $text1 = "UPDATE $table SET $field='$value' WHERE id=$id";
+                $conn->prepare("INSERT INTO tl_test (text1) VALUES ('$text1')")->execute();
                 $conn->prepare("UPDATE $table SET $field='$value' WHERE id=$id")->execute();
             }
         }
