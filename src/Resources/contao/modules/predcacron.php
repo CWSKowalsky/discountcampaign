@@ -57,7 +57,8 @@ class PredcaCron extends Backend
                 'lsShopProductIsOnSale' => $product['lsShopProductIsOnSale'],
                 'lsShopProductPrice' => $product['lsShopProductPrice'],
                 'lsShopProductPriceOld' => $product['lsShopProductPriceOld'],
-                'useOldPrice' => $useOldPrice
+                'useOldPrice' => $useOldPrice,
+                'scalePrice' => $product['scalePrice']
             );
             $do_arrays[$id] = $do_array;
         }
@@ -72,6 +73,7 @@ class PredcaCron extends Backend
                 $conn->prepare("UPDATE $table SET $field='$value' WHERE id=$id")->execute();
             }
         }
+
     }
  
 }
