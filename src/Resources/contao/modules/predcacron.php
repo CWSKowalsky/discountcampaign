@@ -66,11 +66,12 @@ class PredcaCron extends Backend
     }
 
     public function doExecuteDC($table, $do_arrays) {
+        $conn = \Database::getInstance();
+        
         $conn->prepare("INSERT INTO tl_test (text1) VALUES ('in executedc')")->execute();
         $arrs = serialize($do_arrays);
         $conn->prepare("INSERT INTO tl_test (text1) VALUES ('$arrs')")->execute();
 
-        $conn = \Database::getInstance();
         
         foreach($do_arrays as $id => $do_array) {
             foreach($do_array as $field => $value) {
