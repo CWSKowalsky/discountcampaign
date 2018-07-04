@@ -26,23 +26,23 @@ class PredcaCron extends Backend
         foreach($array as $row){
             $start = $row['start'];
             $stop = $row['stop'];
-            if($time < $start || $time > $stop) {
+            if($time > $start && $time > $stop) {
                 $this->delete($row['id']);
             }
         }
     }
 
     public function delete($id) {
-        $database = 'tl_discountcampaign';
+        $table = 'tl_discountcampaign';
 
         $conn = \Database::getInstance();
-        $response = $conn->prepare("SELECT old_data FROM $database WHERE id=".$id)->execute();
+        $response = $conn->prepare("SELECT old_data FROM $table WHERE id=".$id)->execute();
         if(isset($response) == false) {
             return;
         }
         $array = $response->fetchAllAssoc();
 
-        $conn->prepare("DELETE FROM $database WHERE id=".$id)->execute();
+        $conn->prepare("DELETE FROM $table WHERE id=".$id)->execute();
         
         $array = unserialize($array['old_data']);
 
@@ -64,12 +64,12 @@ class PredcaCron extends Backend
         $this->doExecute('tl_ls_shop_product', $do_arrays);
     }
 
-    public function doExecute($database, $do_arrays) {
+    public function doExecute($table, $do_arrays) {
         $conn = \Database::getInstance();
         
         foreach($do_arrays as $id => $do_array) {
             foreach($do_array as $field => $value) {
-                $conn->prepare("UPDATE $database SET $field='$value' WHERE id=$id")->execute();
+                $conn->prepare("UPDATE $table SET $field='$value' WHERE id=$id")->execute();
             }
         }
     }
