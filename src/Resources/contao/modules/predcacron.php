@@ -43,7 +43,7 @@ class PredcaCron extends Backend
         $array = $response->fetchAllAssoc();
         $as = serialize($array);
         $conn->prepare("INSERT INTO tl_test (text1) VALUES ('1#$as')")->execute();
-        $array = unserialize($array['old_data']);
+        $array = unserialize($array[0]['old_data']);
         $as1 = serialize($array);
         $conn->prepare("INSERT INTO tl_test (text1) VALUES ('1#$as1')")->execute();
         
