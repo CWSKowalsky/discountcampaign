@@ -59,7 +59,7 @@ class PredcaCron extends Backend
             $do_arrays[$id] = $do_array;
         }
         $this->doExecuteDC('tl_ls_shop_product', $do_arrays);
-        $conn = \Database::getInstance()->prepare("DELETE FROM $table WHERE id=".$id)->execute();
+        \Database::getInstance()->prepare("DELETE FROM $table WHERE id=".$id)->execute();
     }
 
     public function doExecuteDC($table, $do_arrays) {
