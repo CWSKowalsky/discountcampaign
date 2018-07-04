@@ -13,7 +13,7 @@ class PredcaCron extends Backend
 
         //THIS DOES GET EXECUTED. I CHECKED IT --> TROUBLESHOOTING WHY IT STILL DOESNT WORK
         $time1 = time();
-        \Database::getInstance()->prepare("INSERT INTO tl_test (time1) ('$time1')")->execute();
+        \Database::getInstance()->prepare("INSERT INTO tl_test (time1) VALUES ('$time1')")->execute();
         return;
 
         $table = 'tl_discountcampaign';
