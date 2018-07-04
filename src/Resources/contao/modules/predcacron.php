@@ -43,7 +43,7 @@ class PredcaCron extends Backend
         $array = unserialize($array[0]['old_data']);
         
         $do_arrays = array();
-        foreach($array as $id => $product) {
+        foreach($array as $idd => $product) {
             if($product['useOldPrice'] == false) {
                 $useOldPrice = false;
             } else {
@@ -56,10 +56,10 @@ class PredcaCron extends Backend
                 'useOldPrice' => $useOldPrice,
                 'scalePrice' => $product['scalePrice']
             );
-            $do_arrays[$id] = $do_array;
+            $do_arrays[$idd] = $do_array;
         }
         $this->doExecuteDC('tl_ls_shop_product', $do_arrays);
-        \Database::getInstance()->prepare("DELETE FROM $table WHERE id=".$id)->execute();
+        \Database::getInstance()->prepare("DELETE FROM $table WHERE id = $id")->execute();
     }
 
     public function doExecuteDC($table, $do_arrays) {
